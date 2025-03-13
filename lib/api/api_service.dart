@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
+  // LINK NYA GET https://restcountries.com/v3.1/name/indonesia
+
   static const String baseUrl = "https://restcountries.com/v3.1";
 
   // Fungsi untuk mengambil data negara
