@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:api/model/data_api.dart';
+import 'package:api/model/data_country.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -11,8 +13,11 @@ class ApiService {
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        return data.map<String>((country) => country['name']['common'] as String).toList();
+        print(response.body);
+         final List<dynamic> jsonData = json.decode(response.body);
+        final List<CountryNameRespons> data = CountryNameRespons.fromJsonList(jsonData);
+        print(data);
+        return data.map<String>((country) => country.name?.common as String).toList();
       } else {
         return [];
       }
@@ -23,13 +28,15 @@ class ApiService {
   }
 
   // Fungsi untuk mengambil data negara berdasarkan nama
-  static Future<Map<String, dynamic>?> fetchCountryData(String country) async {
+  static Future<CountryRespons?> fetchCountryData(String country) async {
     final url = Uri.parse('$baseUrl/name/$country');
 
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
+        final List<dynamic> jsonData = json.decode(response.body);
+        final List<CountryRespons> data = CountryRespons.fromJsonList(jsonData);
+
         return data.isNotEmpty ? data[0] : null;
       } else {
         return null;

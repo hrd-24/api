@@ -1,17 +1,14 @@
 // To parse this JSON data, do
 //
-//     final countryRespons = countryResponsFromJson(jsonString);
+//     final countryNameRespons = countryNameResponsFromJson(jsonString);
 
 import 'dart:convert';
 
-List<CountryRespons> countryResponsFromJson(String str) => List<CountryRespons>.from(json.decode(str).map((x) => CountryRespons.fromJson(x)));
+List<CountryNameRespons> countryNameResponsFromJson(String str) => List<CountryNameRespons>.from(json.decode(str).map((x) => CountryNameRespons.fromJson(x)));
 
-String countryResponsToJson(List<CountryRespons> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String countryNameResponsToJson(List<CountryNameRespons> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class CountryRespons {
-    static List<CountryRespons> fromJsonList(List<dynamic> jsonList) {
-    return jsonList.map((json) => CountryRespons.fromJson(json)).toList();
-  }
+class CountryNameRespons {
     final Name? name;
     final List<String>? tld;
     final String? cca2;
@@ -21,14 +18,14 @@ class CountryRespons {
     final bool? independent;
     final String? status;
     final bool? unMember;
-    final Map<String, Currency>? currencies;
+    final Currencies? currencies;
     final Idd? idd;
     final List<String>? capital;
     final List<String>? altSpellings;
     final String? region;
     final String? subregion;
     final Languages? languages;
-    final Map<String, Translation>? translations;
+    final Translations? translations;
     final List<double>? latlng;
     final bool? landlocked;
     final double? area;
@@ -48,7 +45,7 @@ class CountryRespons {
     final Gini? gini;
     final String? fifa;
 
-    CountryRespons({
+    CountryNameRespons({
         this.name,
         this.tld,
         this.cca2,
@@ -85,8 +82,10 @@ class CountryRespons {
         this.gini,
         this.fifa,
     });
-
-    factory CountryRespons.fromJson(Map<String, dynamic> json) => CountryRespons(
+  static List<CountryNameRespons> fromJsonList(List<dynamic> jsonList) {
+    return jsonList.map((json) => CountryNameRespons.fromJson(json)).toList();
+  }
+    factory CountryNameRespons.fromJson(Map<String, dynamic> json) => CountryNameRespons(
         name: json["name"] == null ? null : Name.fromJson(json["name"]),
         tld: json["tld"] == null ? [] : List<String>.from(json["tld"]!.map((x) => x)),
         cca2: json["cca2"],
@@ -96,14 +95,14 @@ class CountryRespons {
         independent: json["independent"],
         status: json["status"],
         unMember: json["unMember"],
-        currencies: Map.from(json["currencies"]!).map((k, v) => MapEntry<String, Currency>(k, Currency.fromJson(v))),
+        currencies: json["currencies"] == null ? null : Currencies.fromJson(json["currencies"]),
         idd: json["idd"] == null ? null : Idd.fromJson(json["idd"]),
         capital: json["capital"] == null ? [] : List<String>.from(json["capital"]!.map((x) => x)),
         altSpellings: json["altSpellings"] == null ? [] : List<String>.from(json["altSpellings"]!.map((x) => x)),
         region: json["region"],
         subregion: json["subregion"],
         languages: json["languages"] == null ? null : Languages.fromJson(json["languages"]),
-        translations: Map.from(json["translations"]!).map((k, v) => MapEntry<String, Translation>(k, Translation.fromJson(v))),
+        translations: json["translations"] == null ? null : Translations.fromJson(json["translations"]),
         latlng: json["latlng"] == null ? [] : List<double>.from(json["latlng"]!.map((x) => x?.toDouble())),
         landlocked: json["landlocked"],
         area: json["area"],
@@ -134,14 +133,14 @@ class CountryRespons {
         "independent": independent,
         "status": status,
         "unMember": unMember,
-        "currencies": Map.from(currencies!).map((k, v) => MapEntry<String, dynamic>(k, v.toJson())),
+        "currencies": currencies?.toJson(),
         "idd": idd?.toJson(),
         "capital": capital == null ? [] : List<dynamic>.from(capital!.map((x) => x)),
         "altSpellings": altSpellings == null ? [] : List<dynamic>.from(altSpellings!.map((x) => x)),
         "region": region,
         "subregion": subregion,
         "languages": languages?.toJson(),
-        "translations": Map.from(translations!).map((k, v) => MapEntry<String, dynamic>(k, v.toJson())),
+        "translations": translations?.toJson(),
         "latlng": latlng == null ? [] : List<dynamic>.from(latlng!.map((x) => x)),
         "landlocked": landlocked,
         "area": area,
@@ -219,16 +218,40 @@ class CoatOfArms {
     };
 }
 
-class Currency {
+class Currencies {
+    final Bob? usd;
+    final Bob? xpf;
+    final Bob? bob;
+
+    Currencies({
+        this.usd,
+        this.xpf,
+        this.bob,
+    });
+
+    factory Currencies.fromJson(Map<String, dynamic> json) => Currencies(
+        usd: json["USD"] == null ? null : Bob.fromJson(json["USD"]),
+        xpf: json["XPF"] == null ? null : Bob.fromJson(json["XPF"]),
+        bob: json["BOB"] == null ? null : Bob.fromJson(json["BOB"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "USD": usd?.toJson(),
+        "XPF": xpf?.toJson(),
+        "BOB": bob?.toJson(),
+    };
+}
+
+class Bob {
     final String? name;
     final String? symbol;
 
-    Currency({
+    Bob({
         this.name,
         this.symbol,
     });
 
-    factory Currency.fromJson(Map<String, dynamic> json) => Currency(
+    factory Bob.fromJson(Map<String, dynamic> json) => Bob(
         name: json["name"],
         symbol: json["symbol"],
     );
@@ -424,13 +447,13 @@ class Name {
 }
 
 class NativeName {
-    final Translation? eng;
-    final Translation? mah;
-    final Translation? fra;
-    final Translation? aym;
-    final Translation? grn;
-    final Translation? que;
-    final Translation? spa;
+    final Ara? eng;
+    final Ara? mah;
+    final Ara? fra;
+    final Ara? aym;
+    final Ara? grn;
+    final Ara? que;
+    final Ara? spa;
 
     NativeName({
         this.eng,
@@ -443,13 +466,13 @@ class NativeName {
     });
 
     factory NativeName.fromJson(Map<String, dynamic> json) => NativeName(
-        eng: json["eng"] == null ? null : Translation.fromJson(json["eng"]),
-        mah: json["mah"] == null ? null : Translation.fromJson(json["mah"]),
-        fra: json["fra"] == null ? null : Translation.fromJson(json["fra"]),
-        aym: json["aym"] == null ? null : Translation.fromJson(json["aym"]),
-        grn: json["grn"] == null ? null : Translation.fromJson(json["grn"]),
-        que: json["que"] == null ? null : Translation.fromJson(json["que"]),
-        spa: json["spa"] == null ? null : Translation.fromJson(json["spa"]),
+        eng: json["eng"] == null ? null : Ara.fromJson(json["eng"]),
+        mah: json["mah"] == null ? null : Ara.fromJson(json["mah"]),
+        fra: json["fra"] == null ? null : Ara.fromJson(json["fra"]),
+        aym: json["aym"] == null ? null : Ara.fromJson(json["aym"]),
+        grn: json["grn"] == null ? null : Ara.fromJson(json["grn"]),
+        que: json["que"] == null ? null : Ara.fromJson(json["que"]),
+        spa: json["spa"] == null ? null : Ara.fromJson(json["spa"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -463,16 +486,16 @@ class NativeName {
     };
 }
 
-class Translation {
+class Ara {
     final String? official;
     final String? common;
 
-    Translation({
+    Ara({
         this.official,
         this.common,
     });
 
-    factory Translation.fromJson(Map<String, dynamic> json) => Translation(
+    factory Ara.fromJson(Map<String, dynamic> json) => Ara(
         official: json["official"],
         common: json["common"],
     );
@@ -500,5 +523,117 @@ class PostalCode {
     Map<String, dynamic> toJson() => {
         "format": format,
         "regex": regex,
+    };
+}
+
+class Translations {
+    final Ara? ara;
+    final Ara? bre;
+    final Ara? ces;
+    final Ara? cym;
+    final Ara? deu;
+    final Ara? est;
+    final Ara? fin;
+    final Ara? fra;
+    final Ara? hrv;
+    final Ara? hun;
+    final Ara? ita;
+    final Ara? jpn;
+    final Ara? kor;
+    final Ara? nld;
+    final Ara? per;
+    final Ara? pol;
+    final Ara? por;
+    final Ara? rus;
+    final Ara? slk;
+    final Ara? spa;
+    final Ara? srp;
+    final Ara? swe;
+    final Ara? tur;
+    final Ara? urd;
+    final Ara? zho;
+
+    Translations({
+        this.ara,
+        this.bre,
+        this.ces,
+        this.cym,
+        this.deu,
+        this.est,
+        this.fin,
+        this.fra,
+        this.hrv,
+        this.hun,
+        this.ita,
+        this.jpn,
+        this.kor,
+        this.nld,
+        this.per,
+        this.pol,
+        this.por,
+        this.rus,
+        this.slk,
+        this.spa,
+        this.srp,
+        this.swe,
+        this.tur,
+        this.urd,
+        this.zho,
+    });
+
+    factory Translations.fromJson(Map<String, dynamic> json) => Translations(
+        ara: json["ara"] == null ? null : Ara.fromJson(json["ara"]),
+        bre: json["bre"] == null ? null : Ara.fromJson(json["bre"]),
+        ces: json["ces"] == null ? null : Ara.fromJson(json["ces"]),
+        cym: json["cym"] == null ? null : Ara.fromJson(json["cym"]),
+        deu: json["deu"] == null ? null : Ara.fromJson(json["deu"]),
+        est: json["est"] == null ? null : Ara.fromJson(json["est"]),
+        fin: json["fin"] == null ? null : Ara.fromJson(json["fin"]),
+        fra: json["fra"] == null ? null : Ara.fromJson(json["fra"]),
+        hrv: json["hrv"] == null ? null : Ara.fromJson(json["hrv"]),
+        hun: json["hun"] == null ? null : Ara.fromJson(json["hun"]),
+        ita: json["ita"] == null ? null : Ara.fromJson(json["ita"]),
+        jpn: json["jpn"] == null ? null : Ara.fromJson(json["jpn"]),
+        kor: json["kor"] == null ? null : Ara.fromJson(json["kor"]),
+        nld: json["nld"] == null ? null : Ara.fromJson(json["nld"]),
+        per: json["per"] == null ? null : Ara.fromJson(json["per"]),
+        pol: json["pol"] == null ? null : Ara.fromJson(json["pol"]),
+        por: json["por"] == null ? null : Ara.fromJson(json["por"]),
+        rus: json["rus"] == null ? null : Ara.fromJson(json["rus"]),
+        slk: json["slk"] == null ? null : Ara.fromJson(json["slk"]),
+        spa: json["spa"] == null ? null : Ara.fromJson(json["spa"]),
+        srp: json["srp"] == null ? null : Ara.fromJson(json["srp"]),
+        swe: json["swe"] == null ? null : Ara.fromJson(json["swe"]),
+        tur: json["tur"] == null ? null : Ara.fromJson(json["tur"]),
+        urd: json["urd"] == null ? null : Ara.fromJson(json["urd"]),
+        zho: json["zho"] == null ? null : Ara.fromJson(json["zho"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "ara": ara?.toJson(),
+        "bre": bre?.toJson(),
+        "ces": ces?.toJson(),
+        "cym": cym?.toJson(),
+        "deu": deu?.toJson(),
+        "est": est?.toJson(),
+        "fin": fin?.toJson(),
+        "fra": fra?.toJson(),
+        "hrv": hrv?.toJson(),
+        "hun": hun?.toJson(),
+        "ita": ita?.toJson(),
+        "jpn": jpn?.toJson(),
+        "kor": kor?.toJson(),
+        "nld": nld?.toJson(),
+        "per": per?.toJson(),
+        "pol": pol?.toJson(),
+        "por": por?.toJson(),
+        "rus": rus?.toJson(),
+        "slk": slk?.toJson(),
+        "spa": spa?.toJson(),
+        "srp": srp?.toJson(),
+        "swe": swe?.toJson(),
+        "tur": tur?.toJson(),
+        "urd": urd?.toJson(),
+        "zho": zho?.toJson(),
     };
 }
