@@ -8,6 +8,10 @@ class ApiService {
 
   // Fungsi untuk mengambil daftar semua negara
   static Future<List<String>> fetchAllCountries() async {
+
+    // LINK BUAT NARIK SEMUA NAMA 
+    // https://restcountries.com/v3.1/name/all 
+
     final url = Uri.parse('$baseUrl/all');
 
     try {
@@ -29,6 +33,11 @@ class ApiService {
 
   // Fungsi untuk mengambil data negara berdasarkan nama
   static Future<CountryRespons?> fetchCountryData(String country) async {
+
+    // LINK BUAT NARIK NAMA NEGARA 
+    // https://restcountries.com/v3.1/name/indonesia   
+    // endPoint nya disesuaikan data yang mau di panggil
+
     final url = Uri.parse('$baseUrl/name/$country');
 
     try {
